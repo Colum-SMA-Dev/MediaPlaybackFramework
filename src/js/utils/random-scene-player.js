@@ -2,6 +2,8 @@
 
 var _ = require('lodash');
 var TagMatcher = require('./tag-matcher');
+var ImageMediaObject = require('./media-object/image-media-object');
+
 
 // types and their default display counts
 var MEDIA_TYPES = {
@@ -22,6 +24,8 @@ function RandomScenePlayer (elementManager) {
     this._tagMatcher = new TagMatcher();
 
     this._scene = undefined;
+
+    var obi = new ImageMediaObject();
 
     // contains arrays keyed by mediaObject type.  These are the random
     // generated lists of assets to display
@@ -189,9 +193,6 @@ RandomScenePlayer.prototype._showNewMedia = function() {
     _.chain(MEDIA_TYPES).keys().forEach(function(type) {
         showElementsOfType(this, type);
     }.bind(this));
-    // showStaticElements(this, 'image');
-    // showStaticElements(this, 'text');
-    // showNewVideo(this);
 };
 
 RandomScenePlayer.prototype.start = function() {

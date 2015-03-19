@@ -5,6 +5,8 @@ var SceneStore = require('../stores/scene-store');
 var ThemeSelector = require('../components/theme-selector.jsx');
 var HubSendActions = require('../actions/hub-send-actions');
 var RandomScenePlayer = require('../utils/random-scene-player');
+var MediaObjectQueue = require('../utils/media-object/media-object-queue');
+var QuadrantPlayer = require('../utils/quadrant-player');
 var ScenePlayerElementManager = require('../utils/scene-player-element-manager');
 var FormHelper = require('../mixins/form-helper');
 var Router = require('react-router');
@@ -40,8 +42,8 @@ var SceneListener = React.createClass({
                 this.elementManager.setSceneStyle(this.state.scene.style);    
             }
             
-            this.player.setScene(this.state.scene);
-            this.player.start();
+            this.mediaObjectQueue.setScene(this.state.scene);
+            this.player.play();
         }
     },
 
@@ -53,7 +55,9 @@ var SceneListener = React.createClass({
         var playerElem = this.getDOMNode().querySelector('.player');
 
         this.elementManager = new ScenePlayerElementManager(playerElem);
-        this.player =  new RandomScenePlayer(this.elementManager);
+        this.mediaObjectQueue = new MediaObjectQueue();
+        this.player = new QuadrantPlayer(playerElem);
+        this.player.setMediaObjectQueue(this.mediaObjectQueue);
 
         this._maybeUpdatePlayer();
     },
@@ -64,7 +68,7 @@ var SceneListener = React.createClass({
 
     componentDidUpdate: function(prevProps, prevState) {
         this._maybeUpdatePlayer();
-        this.player.setTagMatcher(this.mergeTagAndThemeFilters());
+        //this.player.setTagMatcher(this.mergeTagAndThemeFilters());
     },
 
     mergeTagAndThemeFilters: function() {

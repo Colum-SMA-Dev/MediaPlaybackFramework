@@ -9,14 +9,14 @@ var Audio5 = require('audio5');
 var soundCloud = require('./sound-cloud');
 
 function ScenePlayerElementManager (element) {
-    var $el = $(element);
+    // var $el = $(element);
 
     this._videoDoneCb = null;
     
-    
-    this._el = $('<div class="media-object-wrapper"></div>');
-    $el.append(this._el);
-    $el.append(this.videoPlayerEl);
+    this._el = $(element);    
+    // this._el = $('<div class="media-object-wrapper"></div>');
+    // $el.append(this._el);
+    // $el.append(this.videoPlayerEl);
 }
 
 function animateInElement (parentEl, element) {
