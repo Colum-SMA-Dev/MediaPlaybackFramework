@@ -17,6 +17,7 @@ var ImageMediaObject = require('../utils/media-object/image-media-object');
 var VideoMediaObject = require('../utils/media-object/video-media-object');
 var AudioMediaObject = require('../utils/media-object/audio-media-object');
 var RandomVisualPlayer = require('../utils/random-visual-player');
+var QuadrantVisualPlayer = require('../utils/quadrant-visual-player');
 var RandomAudioPlayer = require('../utils/random-audio-player');
 
 
@@ -52,7 +53,7 @@ var SceneListener = React.createClass({
             }
         
             this.mediaObjectQueue.setScene(this.state.scene);    
-            this.randomVisualPlayer.start();
+            // this.randomVisualPlayer.start();
             this.randomAudioPlayer.start();
         }
     },
@@ -68,8 +69,9 @@ var SceneListener = React.createClass({
             [TextMediaObject, AudioMediaObject, VideoMediaObject, ImageMediaObject],
             {image: 3, text: 1, video: 1, audio: 1}
         );
-        this.randomVisualPlayer = new RandomVisualPlayer(playerElem, this.mediaObjectQueue);
+        // this.randomVisualPlayer = new RandomVisualPlayer(playerElem, this.mediaObjectQueue);
         this.randomAudioPlayer = new RandomAudioPlayer(this.mediaObjectQueue);
+        this.quadrantVisualPlayer = new QuadrantVisualPlayer(playerElem, this.mediaObjectQueue);
 
         this._maybeUpdatePlayer();
     },

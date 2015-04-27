@@ -1,0 +1,34 @@
+.quadrant {
+	position: absolute;
+}
+
+.quadrant-inner {
+	background-color: red;
+	height: 100%;
+	width: 100%;
+}
+
+.quad-top {
+	top: 0px;
+	bottom: 50%;
+	padding-bottom: 3px;
+}
+
+.quad-bottom {
+	top: 50%;
+	bottom: 0px;
+	padding-top: 3px
+}
+
+.quad-right {
+	left: 50%;
+	right: 0px;
+	padding-left: 3px;
+}
+
+.quad-left {
+	left: 0px;
+	right: 50%;
+	padding-right: 3px;
+
+}
