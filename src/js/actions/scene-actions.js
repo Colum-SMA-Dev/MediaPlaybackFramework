@@ -119,6 +119,14 @@ var SceneActions = {
         location.reload();
     },
 
+    dismissStatus: function(alertId) {
+        AppDispatcher.handleViewAction({
+            type: ActionTypes.STATUS_MESSAGE_REMOVE,
+            message: alertId,
+            id: alertId
+        });
+    },
+
     uploadAsset: function(sceneId, file) {
         var alertId = hat();
         AppDispatcher.handleViewAction({
@@ -160,4 +168,4 @@ var SceneActions = {
     }
 };
 
-module.exports = SceneActions;  
+module.exports = SceneActions;
