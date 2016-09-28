@@ -18,6 +18,8 @@ var AddMediaObject = require('../scene-editor/add-media-object.jsx');
 var Router = require('react-router'),
     Link = Router.Link;
 
+var SceneMonacoTextEditor = require('../scene-monaco-text-editor.jsx');
+
 
 
 var Scene = React.createClass({
@@ -25,14 +27,26 @@ var Scene = React.createClass({
     mixins: [Router.State, Authentication],
 
     getStateFromStores: function() {
+
+        //TODO fix this hack when componentDidMount works...
+        if(SceneStore.getScene(this.props.params.id) === undefined) {
+            SceneStore.addChangeListener(this._onChange);
+            HubSendActions.loadScene(this.props.params.id);
+        }
+
         return {
-            scene: SceneStore.getScene(this.getParams().id),
-        }; 
+            scene: SceneStore.getScene(this.props.params.id),
+        };
     },
 
     componentDidMount:function(){
+
+        //TODO FIX THIS NOW WORKING
+
+        console.log("componentDidMount - SCENE - HERRE");
+
         SceneStore.addChangeListener(this._onChange);
-        HubSendActions.loadScene(this.getParams().id);
+        HubSendActions.loadScene(this.props.params.id);
     },
 
     componentWillUnmount: function() {
@@ -66,9 +80,9 @@ var Scene = React.createClass({
     },
 
     render: function() {
-        
 
-        var viewerUrl = '/viewer.html#/scenes/' + this.getParams().id;
+
+        var viewerUrl = '/viewer.html#/scenes/' + this.props.params.id;
 
         return (
             <DropZone className='flex-container' handler={this.fileHandler}>
@@ -89,13 +103,14 @@ var Scene = React.createClass({
                 <AddMediaObject scene={this.state.scene} />
 
                 <div className="thumbs-and-json">
-                    <MediaObjectList focusHandler={this.thumbClickHandler} 
+                    <MediaObjectList focusHandler={this.thumbClickHandler}
                      scene={this.state.scene} />
-                    <SceneTextEditor focusedMediaObject={this.state.focusedMediaObject} 
-                     scene={this.state.scene || {} } />
-                    
+
+                    <SceneMonacoTextEditor/>
+
+
                 </div>
-                <TagUnion scene={this.state.scene} 
+                <TagUnion scene={this.state.scene}
                  focusedMediaObject={this.state.focusedMediaObject}/>
             </DropZone>
         );
@@ -104,3 +119,6 @@ var Scene = React.createClass({
 });
 
 module.exports = Scene;
+
+// <SceneTextEditor focusedMediaObject={this.state.focusedMediaObject}
+//  scene={this.state.scene || {} } />
