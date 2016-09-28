@@ -27,29 +27,17 @@ var Scene = React.createClass({
     mixins: [Router.State, Authentication],
 
     getStateFromStores: function() {
-
-        //TODO fix this hack when componentDidMount works...
-        if(SceneStore.getScene(this.props.params.id) === undefined) {
-            SceneStore.addChangeListener(this._onChange);
-            HubSendActions.loadScene(this.props.params.id);
-        }
-
         return {
             scene: SceneStore.getScene(this.props.params.id),
         };
     },
 
     componentDidMount:function(){
-
-        //TODO FIX THIS NOW WORKING
-
-        console.log("componentDidMount - SCENE - HERRE");
-
-        SceneStore.addChangeListener(this._onChange);
         HubSendActions.loadScene(this.props.params.id);
+        SceneStore.addChangeListener(this._onChange);
     },
 
-    componentWillUnmount: function() {
+    onWillUnmount: function() {
         SceneStore.removeChangeListener(this._onChange);
     },
 
@@ -106,7 +94,8 @@ var Scene = React.createClass({
                     <MediaObjectList focusHandler={this.thumbClickHandler}
                      scene={this.state.scene} />
 
-                    <SceneMonacoTextEditor/>
+                    <SceneMonacoTextEditor focusedMediaObject={this.state.focusedMediaObject}
+                                           scene={this.state.scene || {} }/>
 
 
                 </div>
